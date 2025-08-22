@@ -7,13 +7,26 @@ body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI
 .vstack { display: flex; flex-direction: column; gap: 12px; }
 label { color: #aaa; font-size: 12px; }
 input[type=file], button, select { background: #181818; color: #eee; border: 1px solid #333; border-radius: 10px; padding: 8px 12px; }
-button.primary { background: #1f4; border-color: #3a5; color: #072; font-weight: 700; }
+button.primary { background: #1f4; border-color: #3a5; color: #072; font-weight: 700; height: 40px; }
 .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
 @media (min-width: 960px){ .grid { grid-template-columns: 1.2fr 1fr; } }
-.canvasWrap { background: #000; border-radius: 12px; overflow: hidden; border: 1px solid #222; }
+.canvasWrap { 
+    background: #000; border-radius: 12px; overflow: hidden; border: 1px solid #222; 
+}
 .caption { color: #ccc; font-size: 12px; margin-top: 4px; }
 .kv { display:grid; grid-template-columns: 140px 1fr; gap: 6px; font-size: 14px; }
 .kv div:nth-child(odd){ color:#888; }
 .kv div:nth-child(even){ color:#eaeaea; }
 hr{ border: none; height: 1px; background: #222; margin: 8px 0; }
 .badge{ display:inline-block; padding:2px 8px; border-radius:999px; background:#182; color:#cfe; font-size:12px; } 
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+  .gallery img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+  }
