@@ -21,31 +21,51 @@ const ABI: Abi = [
   },
 ];
 
+function toBase64Utf8(str: string) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+
 function toTokenURI(imageUrl: string, name: string, description: string) {
-  return `${imageUrl}@${name}@${description}`;
+  const isVideo = /\.(mp4|webm|ogg)$/i.test(imageUrl);
+  const meta: Record<string, unknown> = {
+    name: name || 'Untitled',
+    description: description || '',
+    ...(isVideo ? { animation_url: imageUrl } : { image: imageUrl }),
+  };
+
+  const json = JSON.stringify(meta);
+  const b64 = toBase64Utf8(json);
+  return `data:application/json;base64,${b64}`;
 }
 
 export default function MintPannel({ contractAddress }: { contractAddress: `0x${string}` }) {
   const { address, status } = useAccount();
-  
   const chainId = useChainId();
 
   const [url, setUrl] = useState('');
   const [name, setName] = useState('');
   const [desc, setDesc] = useState('');
 
-  const tokenURI = useMemo(() => (url ? toTokenURI(url, name, desc) : ''), [url, name, desc]);
+  const tokenURI = useMemo(() => {
+    if (!url) return '';
+    try {
+      return toTokenURI(url.trim(), name.trim(), desc.trim());
+    } catch {
+      return '';
+    }
+  }, [url, name, desc]);
 
   const ready =
     status === 'connected' &&
     !!address &&
     chainId === baseSepolia.id &&
-    !!url &&
     !!tokenURI;
 
   const calls = useMemo(() => {
     if (!ready) return [];
-
     return [
       {
         address: contractAddress,
@@ -60,7 +80,7 @@ export default function MintPannel({ contractAddress }: { contractAddress: `0x${
   return (
     <div className="max-w-[560px] w-full rounded-2xl border p-4 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Mint NFT from Generated Image</h2>
+        <h2 className="text-lg font-semibold">Mint NFT (on-chain metadata)</h2>
         <Wallet>
           <ConnectWallet>
             <Avatar className="h-6 w-6" />
@@ -78,10 +98,10 @@ export default function MintPannel({ contractAddress }: { contractAddress: `0x${
         </Wallet>
       </div>
 
-      <label className="block text-sm font-medium">Image URL</label>
+      <label className="block text-sm font-medium">Image / Video URL</label>
       <input
         className="w-full rounded-lg border px-3 py-2"
-        placeholder="https://... (png/jpg/mp4)"
+        placeholder="https://... (png/jpg/svg/mp4/webm/ogg) or data:image/*;base64,..."
         value={url}
         onChange={(e) => setUrl(e.target.value)}
       />
@@ -115,6 +135,10 @@ export default function MintPannel({ contractAddress }: { contractAddress: `0x${
           ) : (
             <img src={url} alt="preview" className="w-full rounded-lg" />
           )}
+          <div className="text-xs text-gray-500 mt-2 break-all">
+            <div className="font-medium">tokenURI (data: JSON)</div>
+            {tokenURI.slice(0, 120)}{tokenURI.length > 120 ? '…' : ''}
+          </div>
         </div>
       )}
 
