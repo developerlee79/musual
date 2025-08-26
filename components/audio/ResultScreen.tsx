@@ -33,7 +33,7 @@ export default function ResultScreen({ imageUrls, onBack, onCopy }: Props) {
     <main className="container vstack page-section">
       <section className="card vstack">
         <div className="row-between">
-          <h1 className="title-light">Generated Images</h1>
+          <h1 className="section-title">Generated Images</h1>
           <button className="btn btn-ghost" onClick={() => { setActive(null); onBack(); }}>Back</button>
         </div>
 
