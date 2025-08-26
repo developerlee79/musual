@@ -10,12 +10,3 @@ export function useLogs() {
   const clear = React.useCallback(() => setLogs([]), []);
   return { logs, log, clear };
 }
-
-export const LogPane: React.FC<{ logs: string[] }>= ({ logs }) => (
-  <div className="card" style={{ maxHeight: 220, overflow: 'auto' }}>
-    <div style={{ fontWeight: 700, color:'#9cf', marginBottom:8 }}>Logs</div>
-    <pre style={{ margin: 0, whiteSpace: 'pre-wrap', color:'#bde', fontSize:12 }}>
-      {logs.length ? logs.join('\n') : 'No logs yet.'}
-    </pre>
-  </div>
-); 
