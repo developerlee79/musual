@@ -81,21 +81,21 @@ export default function MintPannel({ contractAddress }: { contractAddress: `0x${
     <section className="card vstack">
       <h2 className="section-title">Mint your artwork</h2>
 
-      <div className="max-w-[560px] w-full rounded-2xl border p-4 space-y-4">
+      <div className="max-w-[560px] w-full rounded-2xl space-y-4">
 
         <label className="block text-sm font-medium">Image / Video URL</label>
         <input
-          className="w-full rounded-lg border px-3 py-2"
+          className="w-full rounded-lg border px-3 py-2 mt-1"
           placeholder="https://... (png/jpg/svg/mp4/webm/ogg) or data:image/*;base64,..."
           value={url}
           onChange={(e) => setUrl(e.target.value)}
         />
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 mt-2">
           <div>
             <label className="block text-sm font-medium">Name</label>
             <input
-              className="w-full rounded-lg border px-3 py-2"
+              className="w-full rounded-lg border px-3 py-2 mt-1"
               placeholder="My Artwork #1"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -104,7 +104,7 @@ export default function MintPannel({ contractAddress }: { contractAddress: `0x${
           <div>
             <label className="block text-sm font-medium">Description</label>
             <input
-              className="w-full rounded-lg border px-3 py-2"
+              className="w-full rounded-lg border px-3 py-2 mt-1 mb-4"
               placeholder="Optional"
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
