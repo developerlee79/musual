@@ -44,7 +44,7 @@ export default function AudioApp() {
   const copyToClipboard = async (url: string) => {
     try {
       await navigator.clipboard.writeText(url);
-      toast.success('Image URL copied to clipboard')
+      toast.success('Image URL copied to clipboard');
     } catch (err) {
       console.error('Err : ', err);
     }
@@ -87,28 +87,47 @@ export default function AudioApp() {
   return (
     <div className="container vstack">
       <div className="card vstack">
-        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-          <h1 style={{ margin:0, color:'#eef' }}>Music Visualization</h1>
+        <div className="row-between">
+          <h1 className="title-light">Music Visualization</h1>
         </div>
-        <div className="hstack" style={{ flexWrap:'wrap', gap:7 }}>
+
+        <div className="hstack wrap-7">
           <div className="vstack">
             <label>Upload music audio file (30–60s)</label>
-            <input type="file" accept="audio/*" disabled={busy} onChange={e=>{ const f=e.target.files?.[0]; if (f) onFile(f); }} />
+            <input
+              type="file"
+              accept="audio/*"
+              disabled={busy}
+              onChange={(e) => {
+                const f = e.target.files?.[0];
+                if (f) onFile(f);
+              }}
+            />
           </div>
-         <button className="primary" onClick={onGenerate} disabled={!features || busy}>Generate</button> 
+
+          <button className="primary" onClick={onGenerate} disabled={!features || busy}>
+            Generate
+          </button>
         </div>
       </div>
 
       {!!imageUrls.length && (
         <div className="card vstack">
-          <div style={{ color:'#9cf', fontWeight:700 }}>Generated Images</div>
-          <div className="gallery" style={{ gap:12, flexWrap:'wrap' }}>
+          <div className="section-title">Generated Images</div>
+          <div className="gallery">
             {imageUrls.map((u, i) => (
-              <img key={i} src={u} alt={`SOGNI Output ${i+1}`} style={{ maxWidth: 320, borderRadius:12 }} onClick={() => copyToClipboard(u)} />
+              <img
+                key={i}
+                src={u}
+                alt={`SOGNI Output ${i + 1}`}
+                className="thumb-320"
+                onClick={() => copyToClipboard(u)}
+              />
             ))}
           </div>
         </div>
       )}
+
       <Toaster position="bottom-center" reverseOrder={false} />
     </div>
   );
