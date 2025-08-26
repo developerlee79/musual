@@ -1,11 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import MintPannel from 'components/MintPanel';
-import '@coinbase/onchainkit/styles.css'; 
+import '@coinbase/onchainkit/styles.css';
 import { Providers } from 'lib/chain/provider';
+import AudioAppHeader from 'components/ui/AppHeader';
 
-const AudioApp = dynamic(() => import('../components/AudioApp'), { ssr: false });
+const AudioApp = dynamic(() => import('components/audio'), { ssr: false });
 
 export default function Home() {
   return (
@@ -14,8 +14,8 @@ export default function Home() {
         <title>Musual</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+      <AudioAppHeader />
       <AudioApp />
-      <MintPannel contractAddress="0xa935719F2c09a2DAd75137b85eFC20CCD95ac2B0" />
     </Providers>
   );
 }
