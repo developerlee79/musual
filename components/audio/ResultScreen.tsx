@@ -22,11 +22,10 @@ export default function ResultScreen({ imageUrls, onBack, onCopy }: Props) {
         return;
       }
       const isAction = (target as HTMLElement).closest('.action-btn');
-      if (!isAction) return;
-      e.stopPropagation();
+      if (isAction) return;
     };
-    document.addEventListener('click', onDocClick, { capture: true });
-    return () => document.removeEventListener('click', onDocClick, { capture: true } as any);
+    document.addEventListener('click', onDocClick);
+    return () => document.removeEventListener('click', onDocClick);
   }, []);
 
   return (
